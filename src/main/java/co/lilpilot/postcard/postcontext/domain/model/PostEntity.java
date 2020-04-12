@@ -1,4 +1,4 @@
-package co.lilpilot.postcard.domain.model;
+package co.lilpilot.postcard.postcontext.domain.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

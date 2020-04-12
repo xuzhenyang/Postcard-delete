@@ -1,10 +1,11 @@
-package co.lilpilot.postcard.domain.model;
+package co.lilpilot.postcard.postcontext.domain.model;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class PostEntityTest {
 
     @Test
