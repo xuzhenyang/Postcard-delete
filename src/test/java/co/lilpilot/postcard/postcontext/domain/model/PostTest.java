@@ -9,13 +9,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class PostEntityTest {
+class PostTest {
 
     @Test
     void should_set_title_and_content_when_create() {
-        PostEntity postEntity = new PostEntity("测试标题", "测试内容");
-        assertThat(postEntity.getTitle()).isEqualTo("测试标题");
-        assertThat(postEntity.getContent()).isEqualTo("测试内容");
+        Post post = new Post("测试标题", "测试内容");
+        assertThat(post.getTitle()).isEqualTo("测试标题");
+        assertThat(post.getContent()).isEqualTo("测试内容");
     }
 
     @ParameterizedTest
@@ -26,16 +26,16 @@ class PostEntityTest {
             "测试标题, ''"
     })
     void should_throw_exception_when_create_with_null_or_empty_param(String title, String content) {
-        assertThatThrownBy(() -> new PostEntity(title, content))
+        assertThatThrownBy(() -> new Post(title, content))
                 .isInstanceOf(RuntimeException.class);
     }
 
     @Test
-    void should_modify_title_and_content_when_modify() {
-        PostEntity postEntity = new PostEntity("测试标题", "测试内容");
-        postEntity.modify("测试标题2", "测试内容2");
-        assertThat(postEntity.getTitle()).isEqualTo("测试标题2");
-        assertThat(postEntity.getContent()).isEqualTo("测试内容2");
+    void should_edit_title_and_content_when_modify() {
+        Post post = new Post("测试标题", "测试内容");
+        post.edit("测试标题2", "测试内容2");
+        assertThat(post.getTitle()).isEqualTo("测试标题2");
+        assertThat(post.getContent()).isEqualTo("测试内容2");
     }
 
     @ParameterizedTest
@@ -45,9 +45,9 @@ class PostEntityTest {
             "测试标题,  ",
             "测试标题, ''"
     })
-    void should_throw_exception_when_modify_with_null_or_empty_param(String title, String content) {
-        PostEntity postEntity = new PostEntity("测试标题", "测试内容");
-        assertThatThrownBy(() -> postEntity.modify(title, content))
+    void should_throw_exception_when_edit_with_null_or_empty_param(String title, String content) {
+        Post post = new Post("测试标题", "测试内容");
+        assertThatThrownBy(() -> post.edit(title, content))
                 .isInstanceOf(RuntimeException.class);
     }
 }

@@ -15,7 +15,7 @@ import java.util.Date;
 @Entity
 @Getter
 @NoArgsConstructor
-public class PostEntity {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,7 +26,7 @@ public class PostEntity {
     @LastModifiedDate
     private Date dateUpdate;
 
-    public PostEntity(String title, String content) {
+    public Post(String title, String content) {
         if (StringUtils.isEmpty(title)) {
             throw new RuntimeException("标题不能为空");
         }
@@ -37,7 +37,7 @@ public class PostEntity {
         this.content = content;
     }
 
-    public void modify(String title, String content) {
+    public void edit(String title, String content) {
         if (StringUtils.isEmpty(title)) {
             throw new RuntimeException("标题不能为空");
         }
