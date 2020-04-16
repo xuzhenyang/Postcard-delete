@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Service
 public class TagConfigService {
 
@@ -20,5 +23,16 @@ public class TagConfigService {
         }
         TagConfig tagConfig = new TagConfig(code, name);
         return tagConfigRepository.save(tagConfig);
+    }
+
+    public void delete(Long id) {
+        if (Objects.isNull(id)) {
+            throw new RuntimeException("参数不能为空");
+        }
+        Optional<TagConfig> tagConfigOptional = tagConfigRepository.findById(id);
+        if (!tagConfigOptional.isPresent()) {
+            throw new RuntimeException("标签配置不存在");
+        }
+        tagConfigRepository.deleteById(id);
     }
 }

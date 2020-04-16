@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.Optional;
+
 import static org.mockito.MockitoAnnotations.*;
 import static org.mockito.BDDMockito.*;
 import static org.assertj.core.api.Assertions.*;
@@ -49,5 +51,33 @@ public class TagConfigServiceTest extends BaseMockitoTest {
         assertThat(result).isNotNull();
         assertThat(result.getCode()).isEqualTo(code);
         assertThat(result.getName()).isEqualTo(name);
+    }
+
+    @Test
+    void test_delete_by_id() {
+        //given
+        String code = "test_code";
+        String name = "test_name";
+        TagConfig tagConfig = new TagConfig(code, name);
+        long tagId = 1L;
+        given(tagConfigRepository.findById(tagId))
+                .willReturn(Optional.of(tagConfig));
+        //when
+        tagConfigService.delete(tagId);
+        //then
+        then(tagConfigRepository).should(times(1))
+                .deleteById(tagId);
+    }
+
+    @Test
+    void should_throw_exception_when_delete_and_config_not_exist() {
+        //given
+        long tagId = 1L;
+        given(tagConfigRepository.findById(tagId))
+                .willReturn(Optional.empty());
+        //when
+        assertThatThrownBy(() -> tagConfigService.delete(tagId))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("标签配置不存在");
     }
 }
