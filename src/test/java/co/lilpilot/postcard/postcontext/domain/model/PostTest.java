@@ -1,18 +1,16 @@
 package co.lilpilot.postcard.postcontext.domain.model;
 
+import co.lilpilot.postcard.BaseMockitoTest;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class PostTest {
+class PostTest extends BaseMockitoTest {
 
     @Test
     void should_set_info_when_create() {
