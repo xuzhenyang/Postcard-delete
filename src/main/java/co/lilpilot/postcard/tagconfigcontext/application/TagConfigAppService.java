@@ -26,4 +26,9 @@ public class TagConfigAppService {
         tagConfigService.delete(id);
         applicationEventPublisher.publishTagConfigDelete(new TagConfigDeleteEvent(id));
     }
+
+    public String getNameByCode(String code) {
+        //TODO 实现
+        return null;
+    }
 }
