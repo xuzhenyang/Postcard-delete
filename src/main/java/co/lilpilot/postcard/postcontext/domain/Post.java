@@ -1,14 +1,14 @@
-package co.lilpilot.postcard.postcontext.domain.model;
+package co.lilpilot.postcard.postcontext.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
@@ -65,6 +65,16 @@ public class Post {
         this.title = title;
         this.content = content;
         this.tagList = tagList;
+    }
+
+    public void removeTag(String tagCode) {
+        if (StringUtils.isEmpty(tagCode)) {
+            throw new RuntimeException("标签编码不能为空");
+        }
+        if (CollectionUtils.isEmpty(tagList)) {
+            throw new RuntimeException("标签列表为空");
+        }
+        tagList.removeIf(tag -> Objects.equals(tag.getCode(), tagCode));
     }
 
     public void publish() {

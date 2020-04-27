@@ -1,4 +1,4 @@
-package co.lilpilot.postcard.postcontext.domain.model;
+package co.lilpilot.postcard.postcontext.domain;
 
 import co.lilpilot.postcard.BaseMockitoTest;
 import org.assertj.core.util.Lists;
@@ -80,5 +80,18 @@ class PostTest extends BaseMockitoTest {
         assertThat(post.getStatus()).isEqualTo(PostStatus.PUBLIC.getValue());
         post.withdraw();
         assertThat(post.getStatus()).isEqualTo(PostStatus.DRAFT.getValue());
+    }
+
+    @Test
+    void test_remove_tag() {
+        List<Tag> tagList = Lists.newArrayList(
+                new Tag("tag_1", "标签1"),
+                new Tag("tag_2", "标签2")
+        );
+        Post post = new Post("测试标题", tagList, "测试内容");
+        assertThat(post.getTagList().size()).isEqualTo(2);
+        post.removeTag("tag_1");
+        assertThat(post.getTagList().size()).isEqualTo(1);
+        assertThat(post.getTagList().get(0).getCode()).isEqualTo("tag_2");
     }
 }
