@@ -25,7 +25,7 @@ public class TagConfigService {
         return tagConfigRepository.save(tagConfig);
     }
 
-    public void delete(Long id) {
+    public TagConfig delete(Long id) {
         if (Objects.isNull(id)) {
             throw new RuntimeException("参数不能为空");
         }
@@ -34,5 +34,6 @@ public class TagConfigService {
             throw new RuntimeException("标签配置不存在");
         }
         tagConfigRepository.deleteById(id);
+        return tagConfigOptional.get();
     }
 }

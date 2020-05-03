@@ -1,13 +1,18 @@
 package co.lilpilot.postcard.tagconfigcontext.domain;
 
 import co.lilpilot.postcard.BaseMockitoTest;
+import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
+import co.lilpilot.postcard.tagconfigcontext.gateway.event.SpringEventPublisher;
+import co.lilpilot.postcard.tagconfigcontext.interfaces.ApplicationEventPublisher;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.Optional;
 
-import static org.mockito.MockitoAnnotations.*;
+import static org.mockito.Mockito.*;
 import static org.mockito.BDDMockito.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -16,7 +21,8 @@ public class TagConfigServiceTest extends BaseMockitoTest {
 
     @Mock
     TagConfigRepository tagConfigRepository;
-
+    @Mock
+    ApplicationEventPublisher applicationEventPublisher;
     @InjectMocks
     TagConfigService tagConfigService;
 
@@ -63,10 +69,12 @@ public class TagConfigServiceTest extends BaseMockitoTest {
         given(tagConfigRepository.findById(tagId))
                 .willReturn(Optional.of(tagConfig));
         //when
-        tagConfigService.delete(tagId);
+        TagConfig deletedConfig = tagConfigService.delete(tagId);
         //then
         then(tagConfigRepository).should(times(1))
                 .deleteById(tagId);
+        assertThat(deletedConfig.getCode()).isEqualTo(code);
+        assertThat(deletedConfig.getName()).isEqualTo(name);
     }
 
     @Test

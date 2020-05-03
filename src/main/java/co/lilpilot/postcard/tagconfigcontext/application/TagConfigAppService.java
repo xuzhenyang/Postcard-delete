@@ -29,8 +29,8 @@ public class TagConfigAppService {
 
     @Transactional
     public void deleteTagConfig(Long id) {
-        tagConfigService.delete(id);
-        applicationEventPublisher.publishTagConfigDelete(new TagConfigDeleteEvent(id));
+        TagConfig deletedTagConfig = tagConfigService.delete(id);
+        applicationEventPublisher.publishTagConfigDelete(new TagConfigDeleteEvent(deletedTagConfig.getCode()));
     }
 
     public String getNameByCode(String code) {
