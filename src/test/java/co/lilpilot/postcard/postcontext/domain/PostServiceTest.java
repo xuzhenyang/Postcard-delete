@@ -18,6 +18,24 @@ public class PostServiceTest extends BaseMockitoTest {
     PostService postService;
 
     @Test
+    public void test_create_post() {
+        //given
+        Post post = new Post(
+                "post",
+                Lists.newArrayList(
+                        new Tag("tagCode", "测试标签1"),
+                        new Tag("test_tag_2", "测试标签2")),
+                "测试内容1");
+        given(postRepository.save(post))
+                .willReturn(post);
+        //when
+        Post result = postService.createPost(post);
+        //then
+        then(postRepository).should().save(post);
+        assertThat(result.getTitle()).isEqualTo(post.getTitle());
+    }
+
+    @Test
     public void test_remove_tag() {
         //given
         String tagCode = "test_tag";

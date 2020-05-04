@@ -13,6 +13,10 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    public Post createPost(Post post) {
+        return postRepository.save(post);
+    }
+
     public void removeTag(String tagCode) {
         if (StringUtils.isEmpty(tagCode)) {
             throw new RuntimeException("参数不能为空");

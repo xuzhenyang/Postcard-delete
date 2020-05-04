@@ -5,15 +5,12 @@ import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEv
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfig;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfigRepository;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfigService;
-import co.lilpilot.postcard.tagconfigcontext.domain.TagConfigServiceTest;
 import co.lilpilot.postcard.tagconfigcontext.interfaces.ApplicationEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;

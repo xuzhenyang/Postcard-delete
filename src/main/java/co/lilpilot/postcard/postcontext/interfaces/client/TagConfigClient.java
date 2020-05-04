@@ -1,5 +1,7 @@
 package co.lilpilot.postcard.postcontext.interfaces.client;
 
+import co.lilpilot.postcard.postcontext.domain.Tag;
+
 public interface TagConfigClient {
-    String getTagNameByCode(String tagCode);
+    Tag getTagByCode(String tagCode);
 }

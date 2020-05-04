@@ -52,6 +52,7 @@ public class Post {
         this.title = title;
         this.content = content;
         this.tagList = tagList;
+        this.status = PostStatus.DRAFT.getValue();
     }
 
 
