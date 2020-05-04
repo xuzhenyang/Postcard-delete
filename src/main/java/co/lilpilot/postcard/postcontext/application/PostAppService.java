@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class PostAppService {
@@ -16,6 +17,11 @@ public class PostAppService {
     private PostService postService;
     @Autowired
     private PostRequestAssembler postRequestAssembler;
+
+
+    public List<Post> listLatest5() {
+        return postService.queryByPage(1, 5).getContent();
+    }
 
     @Transactional
     public void createPost(PostCreateRequest request) {

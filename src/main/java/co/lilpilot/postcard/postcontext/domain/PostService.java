@@ -1,6 +1,8 @@
 package co.lilpilot.postcard.postcontext.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -12,6 +14,17 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    public Page<Post> queryByPage(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;
+        }
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        return postRepository.pagePublicPosts(pageRequest);
+    }
 
     public Post createPost(Post post) {
         return postRepository.save(post);

@@ -6,7 +6,6 @@ import co.lilpilot.postcard.postcontext.application.message.PostRequestAssembler
 import co.lilpilot.postcard.postcontext.domain.Post;
 import co.lilpilot.postcard.postcontext.domain.PostService;
 import co.lilpilot.postcard.postcontext.domain.Tag;
-import co.lilpilot.postcard.postcontext.interfaces.client.TagConfigClient;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
