@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("from Post post where post.status = 2 order by post.id desc")
     Page<Post> pagePublicPosts(Pageable pageable);
+
 }

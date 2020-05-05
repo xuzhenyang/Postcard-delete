@@ -5,6 +5,7 @@ import co.lilpilot.postcard.postcontext.application.message.PostRequestAssembler
 import co.lilpilot.postcard.postcontext.domain.Post;
 import co.lilpilot.postcard.postcontext.domain.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,7 +21,11 @@ public class PostAppService {
 
 
     public List<Post> listLatest5() {
-        return postService.queryByPage(1, 5).getContent();
+        return postService.queryPublicByPage(1, 5).getContent();
+    }
+
+    public Page<Post> queryByPage(Integer page, Integer pageSize) {
+        return postService.queryByPage(page, pageSize);
     }
 
     @Transactional

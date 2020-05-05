@@ -23,7 +23,8 @@ public class Post {
      * @see PostStatus
      */
     private Integer status;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
     private List<Tag> tagList;
     @CreatedDate
     private Date dateCreate;

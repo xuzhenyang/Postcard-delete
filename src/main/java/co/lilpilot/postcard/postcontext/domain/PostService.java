@@ -15,6 +15,17 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    public Page<Post> queryPublicByPage(Integer page, Integer pageSize) {
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;
+        }
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        return postRepository.pagePublicPosts(pageRequest);
+    }
+
     public Page<Post> queryByPage(Integer page, Integer pageSize) {
         if (page == null) {
             page = 1;
@@ -22,8 +33,8 @@ public class PostService {
         if (pageSize == null) {
             pageSize = 10;
         }
-        PageRequest pageRequest = PageRequest.of(page, pageSize);
-        return postRepository.pagePublicPosts(pageRequest);
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+        return postRepository.findAll(pageRequest);
     }
 
     public Post createPost(Post post) {
