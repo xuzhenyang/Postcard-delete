@@ -1,13 +1,13 @@
 package co.lilpilot.postcard.postcontext.gateway.controller;
 
 import co.lilpilot.postcard.postcontext.application.PostAppService;
+import co.lilpilot.postcard.postcontext.application.message.Page;
 import co.lilpilot.postcard.postcontext.application.message.PostCreateRequest;
 import co.lilpilot.postcard.postcontext.domain.Post;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class PostController {
 
     @PostMapping("/posts")
     @ApiOperation("创建文章")
-    @ApiImplicitParam(name = "postCreateRequest", value = "创建文章参数", required = true)
+    @ApiImplicitParam(name = "postCreateRequest", value = "创建文章参数", required = true, dataType = "PostCreateRequest")
     public void createPost(@RequestBody PostCreateRequest postCreateRequest) {
         postAppService.createPost(postCreateRequest);
     }

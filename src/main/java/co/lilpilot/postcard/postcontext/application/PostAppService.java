@@ -1,11 +1,11 @@
 package co.lilpilot.postcard.postcontext.application;
 
+import co.lilpilot.postcard.postcontext.application.message.Page;
 import co.lilpilot.postcard.postcontext.application.message.PostCreateRequest;
 import co.lilpilot.postcard.postcontext.application.message.PostRequestAssembler;
 import co.lilpilot.postcard.postcontext.domain.Post;
 import co.lilpilot.postcard.postcontext.domain.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,7 +25,8 @@ public class PostAppService {
     }
 
     public Page<Post> queryByPage(Integer page, Integer pageSize) {
-        return postService.queryByPage(page, pageSize);
+        org.springframework.data.domain.Page<Post> result = postService.queryByPage(page, pageSize);
+        return Page.of(result.getNumber() + 1, result.getSize(), result.getNumberOfElements(), result.getContent());
     }
 
     @Transactional
