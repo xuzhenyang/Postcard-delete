@@ -46,7 +46,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post updatePost(Long id, String title, List<String> tagCodeList, String content) {
+    public Post editPost(Long id, String title, List<String> tagCodeList, String content) {
         Optional<Post> postOptional = postRepository.findById(id);
         if (!postOptional.isPresent()) {
             throw new RuntimeException("文章不存在");
@@ -57,6 +57,26 @@ public class PostService {
         }
         Post post = postOptional.get();
         post.edit(title, tagList, content);
+        return postRepository.save(post);
+    }
+
+    public Post publishPost(Long id) {
+        Optional<Post> postOptional = postRepository.findById(id);
+        if (!postOptional.isPresent()) {
+            throw new RuntimeException("文章不存在");
+        }
+        Post post = postOptional.get();
+        post.publish();
+        return postRepository.save(post);
+    }
+
+    public Post withdrawPost(Long id) {
+        Optional<Post> postOptional = postRepository.findById(id);
+        if (!postOptional.isPresent()) {
+            throw new RuntimeException("文章不存在");
+        }
+        Post post = postOptional.get();
+        post.withdraw();
         return postRepository.save(post);
     }
 

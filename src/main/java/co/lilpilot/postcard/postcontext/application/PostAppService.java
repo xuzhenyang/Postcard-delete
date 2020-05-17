@@ -37,8 +37,18 @@ public class PostAppService {
     }
 
     @Transactional
-    public void updatePost(PostUpdateRequest request) {
-        postService.updatePost(request.getId(), request.getTitle(), request.getTagCodeList(), request.getContent());
+    public void editPost(PostUpdateRequest request) {
+        postService.editPost(request.getId(), request.getTitle(), request.getTagCodeList(), request.getContent());
+    }
+
+    @Transactional
+    public void publishPost(Long id) {
+        postService.publishPost(id);
+    }
+
+    @Transactional
+    public void withdrawPost(Long id) {
+        postService.withdrawPost(id);
     }
 
     @Transactional

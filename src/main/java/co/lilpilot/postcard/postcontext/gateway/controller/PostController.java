@@ -51,7 +51,19 @@ public class PostController {
     @ApiImplicitParam(name = "postUpdateRequest", value = "创建文章参数", required = true, dataType = "PostUpdateRequest")
     public void updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
         postUpdateRequest.setId(postId);
-        postAppService.updatePost(postUpdateRequest);
+        postAppService.editPost(postUpdateRequest);
+    }
+
+    @PutMapping("/posts/{postId}/publish")
+    @ApiOperation("发布文章")
+    public void publishPost(@PathVariable Long postId) {
+        postAppService.publishPost(postId);
+    }
+
+    @PutMapping("/posts/{postId}/withdraw")
+    @ApiOperation("撤回文章")
+    public void withdrawPost(@PathVariable Long postId) {
+        postAppService.withdrawPost(postId);
     }
 
 }
