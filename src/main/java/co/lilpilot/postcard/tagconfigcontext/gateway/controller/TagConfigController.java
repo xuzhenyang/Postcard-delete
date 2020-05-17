@@ -22,7 +22,7 @@ public class TagConfigController {
         return tagConfigAppService.listAll();
     }
 
-    @PutMapping("/config/tag")
+    @PostMapping("/config/tag")
     @ApiOperation("新增标签配置")
     public void addConfig(@RequestBody TagConfigCreateRequest request) {
         tagConfigAppService.addTagConfig(request);

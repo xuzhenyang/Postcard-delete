@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TagConfigDeleteEvent {
-    private String tagCode;
+    private final String tagCode;
 }

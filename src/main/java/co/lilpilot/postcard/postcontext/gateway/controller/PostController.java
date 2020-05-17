@@ -3,6 +3,7 @@ package co.lilpilot.postcard.postcontext.gateway.controller;
 import co.lilpilot.postcard.postcontext.application.PostAppService;
 import co.lilpilot.postcard.postcontext.application.message.Page;
 import co.lilpilot.postcard.postcontext.application.message.PostCreateRequest;
+import co.lilpilot.postcard.postcontext.application.message.PostUpdateRequest;
 import co.lilpilot.postcard.postcontext.domain.Post;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,6 +44,14 @@ public class PostController {
     @ApiImplicitParam(name = "postCreateRequest", value = "创建文章参数", required = true, dataType = "PostCreateRequest")
     public void createPost(@RequestBody PostCreateRequest postCreateRequest) {
         postAppService.createPost(postCreateRequest);
+    }
+
+    @PutMapping("/posts/{postId}")
+    @ApiOperation("更新文章")
+    @ApiImplicitParam(name = "postUpdateRequest", value = "创建文章参数", required = true, dataType = "PostUpdateRequest")
+    public void updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
+        postUpdateRequest.setId(postId);
+        postAppService.updatePost(postUpdateRequest);
     }
 
 }
