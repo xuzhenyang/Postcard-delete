@@ -1,6 +1,7 @@
 package co.lilpilot.postcard.tagconfigcontext.application;
 
 import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
+import co.lilpilot.postcard.tagconfigcontext.application.message.TagConfigCreateRequest;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfig;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfigRepository;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfigService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -22,9 +24,13 @@ public class TagConfigAppService {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    public List<TagConfig> listAll() {
+        return tagConfigRepository.findAll();
+    }
+
     @Transactional
-    public void addTagConfig(String code, String name) {
-        tagConfigService.addTagConfig(code, name);
+    public void addTagConfig(TagConfigCreateRequest request) {
+        tagConfigService.addTagConfig(request.getCode(), request.getName());
     }
 
     @Transactional
