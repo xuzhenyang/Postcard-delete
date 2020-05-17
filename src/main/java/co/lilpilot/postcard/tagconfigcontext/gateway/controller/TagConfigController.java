@@ -22,13 +22,13 @@ public class TagConfigController {
         return tagConfigAppService.listAll();
     }
 
-    @PostMapping("/config/tag")
+    @PostMapping("/config/tags")
     @ApiOperation("新增标签配置")
     public void addConfig(@RequestBody TagConfigCreateRequest request) {
         tagConfigAppService.addTagConfig(request);
     }
 
-    @DeleteMapping("/config/tag/{tagConfigId}")
+    @DeleteMapping("/config/tags/{tagConfigId}")
     @ApiOperation("删除标签配置")
     public void deleteConfig(@PathVariable Long tagConfigId) {
         tagConfigAppService.deleteTagConfig(tagConfigId);

@@ -1,7 +1,6 @@
 package co.lilpilot.postcard.postcontext.domain;
 
 import co.lilpilot.postcard.postcontext.interfaces.client.TagConfigClient;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
