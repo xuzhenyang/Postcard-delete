@@ -3,7 +3,6 @@ package co.lilpilot.postcard.tagconfigcontext.gateway.controller;
 import co.lilpilot.postcard.tagconfigcontext.application.TagConfigAppService;
 import co.lilpilot.postcard.tagconfigcontext.application.message.TagConfigCreateRequest;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfig;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
