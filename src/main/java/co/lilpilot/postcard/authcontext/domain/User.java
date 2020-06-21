@@ -1,5 +1,6 @@
 package co.lilpilot.postcard.authcontext.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,4 +24,11 @@ public class User {
     private Date dateCreate;
     @LastModifiedDate
     private Date dateUpdate;
+
+    //TODO for test
+    public User(Long id, String account, String password) {
+        this.id = id;
+        this.account = account;
+        this.password = password;
+    }
 }

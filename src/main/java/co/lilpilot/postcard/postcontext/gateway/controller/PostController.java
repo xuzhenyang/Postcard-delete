@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class PostController {
     }
 
     @PostMapping("/posts")
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation("创建文章")
     @ApiImplicitParam(name = "postCreateRequest", value = "创建文章参数", required = true, dataType = "PostCreateRequest")
     public void createPost(@RequestBody PostCreateRequest postCreateRequest) {
@@ -47,6 +49,7 @@ public class PostController {
     }
 
     @PutMapping("/posts/{postId}")
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation("更新文章")
     @ApiImplicitParam(name = "postUpdateRequest", value = "创建文章参数", required = true, dataType = "PostUpdateRequest")
     public void updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
@@ -55,12 +58,14 @@ public class PostController {
     }
 
     @PutMapping("/posts/{postId}/publish")
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation("发布文章")
     public void publishPost(@PathVariable Long postId) {
         postAppService.publishPost(postId);
     }
 
     @PutMapping("/posts/{postId}/withdraw")
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation("撤回文章")
     public void withdrawPost(@PathVariable Long postId) {
         postAppService.withdrawPost(postId);
