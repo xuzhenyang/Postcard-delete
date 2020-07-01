@@ -20,7 +20,7 @@ class AdminPostListPage extends Component {
         page = page ? page : 1;
         pageSize = pageSize ? pageSize : 10;
         const token = window.localStorage.getItem(tokenKey);
-        request(`/api/v1/admin/posts?page=${page}&pageSize=${pageSize}`, {
+        request(`/api/admin/posts?page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
             headers: new Headers({
                 "Authorization": `Bearer ${token}`

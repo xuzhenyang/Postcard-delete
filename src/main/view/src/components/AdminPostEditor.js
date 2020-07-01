@@ -23,7 +23,7 @@ class AdminPostEditor extends Component {
     }
 
     fetchTags() {
-        request(`/api/v1/tags`, {
+        request(`/api/config/tags`, {
             method: 'GET',
         })
             .then(data => this.setState({

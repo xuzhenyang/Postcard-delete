@@ -23,7 +23,7 @@ export function request(url, options) {
                 return response.json();
             }
             else {
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 403) {
                     window.localStorage.removeItem(tokenKey);
                     window.location = '/login';
                 }
