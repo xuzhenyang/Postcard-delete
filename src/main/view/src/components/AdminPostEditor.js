@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Button, Select, Tabs } from 'antd';
 import { request } from '../common';
+import { tokenKey } from '../config';
 import marked3 from 'marked3';
 import hljs from 'highlight.js';
 import '../rainbow.css';
@@ -23,11 +24,15 @@ class AdminPostEditor extends Component {
     }
 
     fetchTags() {
-        request(`/api/config/tags`, {
+        const token = window.localStorage.getItem(tokenKey);
+        request(`/api/admin/config/tags`, {
             method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
         })
             .then(data => this.setState({
-                tags: data.data,
+                tags: data,
             }));
     }
 
@@ -56,10 +61,7 @@ class AdminPostEditor extends Component {
             const { tags } = data;
             let selectedTags = [];
             for (let index in tags) {
-                selectedTags.push({
-                    id: tags[index].key,
-                    name: tags[index].label
-                });
+                selectedTags.push(tags[index].key);
             }
             let result = data;
             result.tags = selectedTags;
@@ -78,6 +80,7 @@ class AdminPostEditor extends Component {
             post,
         } = this.props;
 
+        console.log('post: ', post);
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
@@ -88,7 +91,7 @@ class AdminPostEditor extends Component {
         const options = [];
         const tags = this.state.tags;
         for (let index in tags) {
-            options.push(<Option key={tags[index].id}>{tags[index].name}</Option>);
+            options.push(<Option key={tags[index].code}>{tags[index].name}</Option>);
         }
 
         const defaultSelected = [];

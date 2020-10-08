@@ -17,13 +17,13 @@ class AdminPostUpdatePage extends Component {
     fetchPost() {
         const id = this.props.match.params.id;
         const token = window.localStorage.getItem(tokenKey);
-        return request(`/api/v1/admin/posts/${id}`, {
+        return request(`/api/admin/posts/${id}`, {
             method: 'GET',
             headers: new Headers({
                 "Authorization": `Bearer ${token}`
             })
         })
-            .then(data => this.setState({ post: data.data }));
+            .then(data => this.setState({ post: data }));
     }
 
     handleSubmit(data) {
@@ -34,7 +34,7 @@ class AdminPostUpdatePage extends Component {
             tags: data.tags,
             content: data.content,
         }
-        request(`/api/v1/admin/posts/${this.props.match.params.id}`, {
+        request(`/api/admin/posts/${this.props.match.params.id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

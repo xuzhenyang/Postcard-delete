@@ -83,6 +83,16 @@ class PostTest extends BaseMockitoTest {
     }
 
     @Test
+    void test_add_tag() {
+        Post post = new Post("测试标题", null, "测试内容");
+        post.addTag("tag_code", "tag_name");
+        assertThat(post.getTagList().size()).isEqualTo(1);
+        Tag actual = post.getTagList().get(0);
+        assertThat(actual.getCode()).isEqualTo("tag_code");
+        assertThat(actual.getName()).isEqualTo("tag_name");
+    }
+
+    @Test
     void test_remove_tag() {
         List<Tag> tagList = Lists.newArrayList(
                 new Tag("tag_1", "标签1"),

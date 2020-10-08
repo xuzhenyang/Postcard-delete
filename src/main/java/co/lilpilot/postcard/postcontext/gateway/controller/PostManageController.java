@@ -33,6 +33,13 @@ public class PostManageController {
         return postAppService.queryByPage(page, pageSize);
     }
 
+    @GetMapping("/posts/{postId}")
+    @PreAuthorize("isAuthenticated()")
+    @ApiOperation("获取文章")
+    public Post getById(@PathVariable Long postId) {
+        return postAppService.getById(postId);
+    }
+
     @PostMapping("/posts")
     @PreAuthorize("isAuthenticated()")
     @ApiOperation("创建文章")

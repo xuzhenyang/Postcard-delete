@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Divider } from 'antd';
+import { Table, Divider, Switch } from 'antd';
 import { request } from '../../common';
 import { tokenKey } from '../../config';
 import AdminLayout from '../../components/AdminLayout';
@@ -14,6 +14,7 @@ class AdminPostListPage extends Component {
         };
         this.fetchPosts = this.fetchPosts.bind(this);
         this.handleTableChange = this.handleTableChange.bind(this);
+        this.handleSwitch = this.handleSwitch.bind(this);
     }
 
     fetchPosts(page, pageSize) {
@@ -27,10 +28,10 @@ class AdminPostListPage extends Component {
             })
         })
             .then(data => this.setState({
-                posts: data.data.data,
+                posts: data.data,
                 pagination: {
-                    current: data.data.pageIndex,
-                    total: data.data.totalNumber,
+                    current: data.page,
+                    total: data.total,
                 }
             }));
     }
@@ -41,6 +42,30 @@ class AdminPostListPage extends Component {
 
     handleTableChange(pagination, filters, sorter) {
         this.fetchPosts(pagination.current, pagination.pageSize);
+    }
+
+    handleSwitch(id, checked) {
+        console.log('id: ', id);
+        console.log(`switch to ${checked}`);
+        const token = window.localStorage.getItem(tokenKey);
+        if (checked) {
+            request(`/api/admin/posts/${id}/publish`, {
+                method: 'PUT',
+                headers: new Headers({
+                    "Authorization": `Bearer ${token}`
+                })
+            })
+            .then(this.fetchPosts());
+        }
+        else {
+            request(`/api/admin/posts/${id}/withdraw`, {
+                method: 'PUT',
+                headers: new Headers({
+                    "Authorization": `Bearer ${token}`
+                })
+            })
+            .then(this.fetchPosts());
+        }
     }
 
     render() {
@@ -55,7 +80,8 @@ class AdminPostListPage extends Component {
                 <span>
                     <a href={`/admin/posts/edit/${record.id}`}>Edit</a>
                     <Divider type="vertical" />
-                    <a href="#">Close</a>
+                    <Switch checkedChildren="已发布" unCheckedChildren="草稿"
+                        defaultChecked={record.status === 2} onChange={(checked) => this.handleSwitch(record.id, checked)} />
                 </span>
             )
         }]

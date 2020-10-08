@@ -14,7 +14,7 @@ class AdminPostCreatePage extends Component {
 
     handleSubmit(data) {
         const token = window.localStorage.getItem(tokenKey);
-        request('/api/v1/admin/posts', {
+        request('/api/admin/posts', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

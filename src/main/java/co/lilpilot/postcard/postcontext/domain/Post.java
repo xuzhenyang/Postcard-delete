@@ -1,5 +1,7 @@
 package co.lilpilot.postcard.postcontext.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,8 +27,9 @@ public class Post {
      * @see PostStatus
      */
     private Integer status;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
+    @JsonIgnore
     private List<Tag> tagList;
     @CreatedDate
     private Date dateCreate;
@@ -71,14 +74,24 @@ public class Post {
         this.tagList = tagList;
     }
 
+    public void addTag(String tagCode, String tagName) {
+        if (StringUtils.isEmpty(tagCode) || StringUtils.isEmpty(tagName)) {
+            throw new RuntimeException("标签信息不能为空");
+        }
+        if (CollectionUtils.isEmpty(this.tagList)) {
+            this.tagList = Lists.newArrayList();
+        }
+        this.tagList.add(new Tag(tagCode, tagName));
+    }
+
     public void removeTag(String tagCode) {
         if (StringUtils.isEmpty(tagCode)) {
             throw new RuntimeException("标签编码不能为空");
         }
-        if (CollectionUtils.isEmpty(tagList)) {
+        if (CollectionUtils.isEmpty(this.tagList)) {
             throw new RuntimeException("标签列表为空");
         }
-        tagList.removeIf(tag -> Objects.equals(tag.getCode(), tagCode));
+        this.tagList.removeIf(tag -> Objects.equals(tag.getCode(), tagCode));
     }
 
     public void publish() {

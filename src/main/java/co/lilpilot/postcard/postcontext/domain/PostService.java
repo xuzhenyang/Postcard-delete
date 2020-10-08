@@ -42,6 +42,10 @@ public class PostService {
         return postRepository.findAll(pageRequest);
     }
 
+    public Post getById(Long id) {
+        return postRepository.getOne(id);
+    }
+
     public Post createPost(Post post) {
         return postRepository.save(post);
     }
@@ -80,6 +84,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    //TODO refactor 区分文章删除标签和删除标签配置
     public void removeTag(String tagCode) {
         if (StringUtils.isEmpty(tagCode)) {
             throw new RuntimeException("参数不能为空");

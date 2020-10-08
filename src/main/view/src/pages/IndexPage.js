@@ -42,7 +42,7 @@ class IndexPage extends Component {
 
     componentDidMount() {
         request('/api/posts/latest').then(response => this.setState({
-            posts: response.data
+            posts: response
         }));
     }
 

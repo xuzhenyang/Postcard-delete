@@ -30,6 +30,10 @@ public class PostAppService {
         return Page.of(result.getNumber() + 1, result.getSize(), result.getNumberOfElements(), result.getContent());
     }
 
+    public Post getById(Long id) {
+        return postService.getById(id);
+    }
+
     @Transactional
     public void createPost(PostCreateRequest request) {
         Post post = postRequestAssembler.toPost(request);

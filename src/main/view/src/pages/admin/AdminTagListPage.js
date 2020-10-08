@@ -66,43 +66,48 @@ class AdminTagListPage extends Component {
     }
 
     fetchTags() {
-        request(`/api/v1/tags`, {
+        const token = window.localStorage.getItem(tokenKey);
+        request(`/api/admin/config/tags`, {
             method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            },
         })
             .then(data => this.setState({
-                tags: data.data,
+                tags: data,
             }));
     }
 
     handleAddTag() {
         const { validateFields, resetFields } = this.props.form;
         validateFields((errors, values) => {
-            if (errors) {
-                return;
+            if (!errors) {
+                const data = {
+                    code: values.code,
+                    name: values.name
+                }
+                const token = window.localStorage.getItem(tokenKey);
+                request(`/api/admin/config/tags`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                }).then((response) => {
+                    this.fetchTags();
+                    resetFields();
+                }).catch((error) => {
+                    message.error('submit failed');
+                });
             }
-            const data = {
-                name: values.name
-            }
-            const token = window.localStorage.getItem(tokenKey);
-            request(`/api/v1/admin/tags`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            }).then((response) => {
-                this.fetchTags();
-            }).catch((error) => {
-                message.error('submit failed');
-            });
         });
-        resetFields();
     }
 
     handleUpdateTag(tag) {
         const token = window.localStorage.getItem(tokenKey);
-        request(`/api/v1/admin/tags/${tag.id}`, {
+        request(`/api/admin/config/tags/${tag.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,7 +124,7 @@ class AdminTagListPage extends Component {
 
     handleDeleteTag(id) {
         const token = window.localStorage.getItem(tokenKey);
-        request(`/api/v1/admin/tags/${id}`, {
+        request(`/api/admin/config/tags/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -178,6 +183,12 @@ class AdminTagListPage extends Component {
                 <AdminLayout>
                     <h1>AdminTagListPage</h1>
                     <Form layout="inline" onSubmit={this.handleAddTag}>
+                        <FormItem label="code">
+                            {getFieldDecorator('code', {
+                                initialValue: "",
+                                rules: [{ required: true, message: "please input code" }],
+                            })(<Input />)}
+                        </FormItem>
                         <FormItem label="name">
                             {getFieldDecorator('name', {
                                 initialValue: "",
