@@ -37,5 +37,11 @@ public class PostController {
         return postAppService.queryByPage(page, pageSize);
     }
 
+    @GetMapping("/posts/{postId}")
+    @ApiOperation("查询文章详情")
+    public Post getPost(@PathVariable Long postId) {
+        return postAppService.getById(postId);
+    }
+
 
 }

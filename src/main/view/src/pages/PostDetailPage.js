@@ -8,7 +8,9 @@ import { time2DateStr } from '../common';
 function Post(post) {
     if (post && post.id) {
         const tagList = [];
-        post.tags.forEach(tag => {
+        let tags = post.tags;
+        if (Array.isArray(tags) && tags.length > 0)
+        tags.forEach(tag => {
             tagList.push(<span style={{"margin": 5}}>{tag.name}</span>);
         });
         return (
@@ -43,11 +45,11 @@ class PostDetailPage extends Component {
     }
 
     componentDidMount() {
-        const api = '/api/v1/posts/' + this.props.match.params.id;
+        const api = '/api/posts/' + this.props.match.params.id;
         fetch(api)
             .then(res => res.json())
             .then(res => this.setState({
-                post: res.data
+                post: res
             }));
     }
 

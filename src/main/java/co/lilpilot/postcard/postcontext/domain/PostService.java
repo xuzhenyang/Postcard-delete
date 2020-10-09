@@ -43,7 +43,7 @@ public class PostService {
     }
 
     public Post getById(Long id) {
-        return postRepository.getOne(id);
+        return postRepository.findById(id).orElse(null);
     }
 
     public Post createPost(Post post) {
