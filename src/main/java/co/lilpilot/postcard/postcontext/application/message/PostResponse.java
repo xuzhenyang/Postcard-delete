@@ -1,0 +1,40 @@
+package co.lilpilot.postcard.postcontext.application.message;
+
+import co.lilpilot.postcard.postcontext.domain.Post;
+import lombok.Getter;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Getter
+public class PostResponse {
+    private Long id;
+    private String title;
+    private String content;
+    private Integer status;
+    private List<TagResponse> tagList;
+    private Date dateCreate;
+    private Date dateUpdate;
+
+    public static PostResponse of(Post post) {
+        if (post == null) {
+            return null;
+        }
+        List<TagResponse> tagResponseList = CollectionUtils.isEmpty(post.getTagList()) ? null :
+                post.getTagList().stream().map(TagResponse::of).collect(Collectors.toList());
+        return new PostResponse(post.getId(), post.getTitle(), post.getContent(),
+                post.getStatus(), tagResponseList, post.getDateCreate(), post.getDateUpdate());
+    }
+
+    private PostResponse(Long id, String title, String content, Integer status, List<TagResponse> tagList, Date dateCreate, Date dateUpdate) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.status = status;
+        this.tagList = tagList;
+        this.dateCreate = dateCreate;
+        this.dateUpdate = dateUpdate;
+    }
+}

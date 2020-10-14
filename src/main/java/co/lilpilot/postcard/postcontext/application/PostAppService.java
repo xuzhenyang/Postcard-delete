@@ -1,16 +1,16 @@
 package co.lilpilot.postcard.postcontext.application;
 
-import co.lilpilot.postcard.postcontext.application.message.Page;
-import co.lilpilot.postcard.postcontext.application.message.PostCreateRequest;
-import co.lilpilot.postcard.postcontext.application.message.PostRequestAssembler;
-import co.lilpilot.postcard.postcontext.application.message.PostUpdateRequest;
+import co.lilpilot.postcard.postcontext.application.message.*;
 import co.lilpilot.postcard.postcontext.domain.Post;
 import co.lilpilot.postcard.postcontext.domain.PostService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostAppService {
@@ -21,17 +21,24 @@ public class PostAppService {
     private PostRequestAssembler postRequestAssembler;
 
 
-    public List<Post> listLatest5() {
-        return postService.queryPublicByPage(1, 5).getContent();
+    public List<PostResponse> listLatest5() {
+        List<Post> postList = postService.queryPublicByPage(1, 5).getContent();
+        return postListToResponse(postList);
     }
 
-    public Page<Post> queryByPage(Integer page, Integer pageSize) {
+    private List<PostResponse> postListToResponse(List<Post> postList) {
+        return CollectionUtils.isEmpty(postList) ? Lists.newArrayList() :
+                postList.stream().map(PostResponse::of).collect(Collectors.toList());
+    }
+
+    public Page<PostResponse> queryByPage(Integer page, Integer pageSize) {
         org.springframework.data.domain.Page<Post> result = postService.queryByPage(page, pageSize);
-        return Page.of(result.getNumber() + 1, result.getSize(), result.getNumberOfElements(), result.getContent());
+        List<Post> postList = result.getContent();
+        return Page.of(result.getNumber() + 1, result.getSize(), result.getNumberOfElements(), postListToResponse(postList));
     }
 
-    public Post getById(Long id) {
-        return postService.getById(id);
+    public PostResponse getById(Long id) {
+        return PostResponse.of(postService.getById(id));
     }
 
     @Transactional

@@ -3,8 +3,8 @@ package co.lilpilot.postcard.postcontext.gateway.controller;
 import co.lilpilot.postcard.postcontext.application.PostAppService;
 import co.lilpilot.postcard.postcontext.application.message.Page;
 import co.lilpilot.postcard.postcontext.application.message.PostCreateRequest;
+import co.lilpilot.postcard.postcontext.application.message.PostResponse;
 import co.lilpilot.postcard.postcontext.application.message.PostUpdateRequest;
-import co.lilpilot.postcard.postcontext.domain.Post;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ public class PostManageController {
             @ApiImplicitParam(name = "page", value = "当前页数", defaultValue = "1", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页条目数", defaultValue = "10", dataType = "Integer", paramType = "query")
     })
-    public Page<Post> pagePosts(
+    public Page<PostResponse> pagePosts(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
@@ -36,7 +36,7 @@ public class PostManageController {
     @GetMapping("/posts/{postId}")
     @PreAuthorize("isAuthenticated()")
     @ApiOperation("获取文章")
-    public Post getById(@PathVariable Long postId) {
+    public PostResponse getById(@PathVariable Long postId) {
         return postAppService.getById(postId);
     }
 
