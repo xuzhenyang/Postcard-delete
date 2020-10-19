@@ -27,7 +27,7 @@ public class Post {
      * @see PostStatus
      */
     private Integer status;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private List<Tag> tagList;
@@ -61,7 +61,6 @@ public class Post {
         this.status = PostStatus.DRAFT.getValue();
     }
 
-
     public void edit(String title, List<Tag> tagList, String content) {
         if (StringUtils.isEmpty(title)) {
             throw new RuntimeException("标题不能为空");
@@ -71,7 +70,8 @@ public class Post {
         }
         this.title = title;
         this.content = content;
-        this.tagList = tagList;
+        this.tagList.clear();
+        this.tagList.addAll(tagList);
     }
 
     public void addTag(String tagCode, String tagName) {

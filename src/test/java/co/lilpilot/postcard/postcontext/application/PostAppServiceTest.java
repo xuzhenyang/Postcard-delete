@@ -2,10 +2,9 @@ package co.lilpilot.postcard.postcontext.application;
 
 import co.lilpilot.postcard.BaseMockitoTest;
 import co.lilpilot.postcard.postcontext.application.message.PostCreateRequest;
-import co.lilpilot.postcard.postcontext.application.message.PostRequestAssembler;
+import co.lilpilot.postcard.postcontext.application.message.TagParam;
 import co.lilpilot.postcard.postcontext.domain.Post;
 import co.lilpilot.postcard.postcontext.domain.PostService;
-import co.lilpilot.postcard.postcontext.domain.Tag;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -21,8 +20,6 @@ public class PostAppServiceTest extends BaseMockitoTest {
 
     @Mock
     PostService postService;
-    @Mock
-    PostRequestAssembler postRequestAssembler;
     @InjectMocks
     PostAppService postAppService;
 
@@ -35,19 +32,18 @@ public class PostAppServiceTest extends BaseMockitoTest {
         PostCreateRequest postCreateRequest = new PostCreateRequest();
         String title = "test_post";
         postCreateRequest.setTitle(title);
-        String tagCode = "test_tag";
-        postCreateRequest.setTagCodeList(Lists.newArrayList(tagCode));
+        TagParam tagParam = new TagParam();
+        tagParam.setCode("tag_code");
+        tagParam.setName("tag_name");
+        postCreateRequest.setTagParamList(Lists.newArrayList(tagParam));
         postCreateRequest.setContent("test_content");
-        Tag tag = new Tag(tagCode, "test_tag");
-        given(postRequestAssembler.toPost(postCreateRequest))
-                .willReturn(new Post(title, Lists.newArrayList(tag), "111"));
         //when
         postAppService.createPost(postCreateRequest);
         //then
         then(postService).should().createPost(postArgumentCaptor.capture());
         Post post = postArgumentCaptor.getValue();
         assertThat(post.getTitle()).isEqualTo(title);
-        assertThat(post.getTagList().get(0)).isEqualTo(tag);
+        assertThat(post.getTagList().size()).isEqualTo(1);
     }
 
     @Test

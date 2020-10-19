@@ -8,6 +8,6 @@ import java.util.List;
 public class PostUpdateRequest {
     private Long id;
     private String title;
-    private List<String> tagCodeList;
+    private List<TagParam> tagParamList;
     private String content;
 }

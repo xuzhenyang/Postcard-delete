@@ -1,6 +1,5 @@
 package co.lilpilot.postcard.postcontext.domain;
 
-import co.lilpilot.postcard.postcontext.interfaces.client.TagConfigClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,15 +9,12 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-    @Autowired
-    private TagConfigClient tagConfigClient;
 
     public Page<Post> queryPublicByPage(Integer page, Integer pageSize) {
         if (page == null) {
@@ -50,14 +46,10 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post editPost(Long id, String title, List<String> tagCodeList, String content) {
+    public Post editPost(Long id, String title, List<Tag> tagList, String content) {
         Optional<Post> postOptional = postRepository.findById(id);
         if (!postOptional.isPresent()) {
             throw new RuntimeException("文章不存在");
-        }
-        List<Tag> tagList = null;
-        if (!CollectionUtils.isEmpty(tagCodeList)) {
-            tagList = tagCodeList.stream().map(tagCode -> tagConfigClient.getTagByCode(tagCode)).collect(Collectors.toList());
         }
         Post post = postOptional.get();
         post.edit(title, tagList, content);

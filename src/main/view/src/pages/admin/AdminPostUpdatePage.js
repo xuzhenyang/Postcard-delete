@@ -31,7 +31,7 @@ class AdminPostUpdatePage extends Component {
         const post = {
             ...this.state.post,
             title: data.title,
-            tags: data.tags,
+            tagParamList: data.tagParamList,
             content: data.content,
         }
         request(`/api/admin/posts/${this.props.match.params.id}`, {

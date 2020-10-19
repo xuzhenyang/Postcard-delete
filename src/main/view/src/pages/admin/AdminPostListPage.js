@@ -27,13 +27,17 @@ class AdminPostListPage extends Component {
                 "Authorization": `Bearer ${token}`
             })
         })
-            .then(data => this.setState({
-                posts: data.data,
-                pagination: {
-                    current: data.page,
-                    total: data.total,
+            .then(data => {
+                if (data != undefined) {
+                    this.setState({
+                        posts: data.data,
+                        pagination: {
+                            current: data.page,
+                            total: data.total,
+                        }
+                    })
                 }
-            }));
+            });
     }
 
     componentDidMount() {

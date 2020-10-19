@@ -59,12 +59,19 @@ class AdminPostEditor extends Component {
             };
             //tags转换
             const { tags } = data;
-            let selectedTags = [];
+            let tagList = [];
             for (let index in tags) {
-                selectedTags.push(tags[index].key);
+                tagList.push({
+                    code: tags[index].key,
+                    name: tags[index].label
+                });
             }
-            let result = data;
-            result.tags = selectedTags;
+            let result = {
+                id: data.id,
+                title: data.title,
+                tagParamList: tagList,
+                content: data.content
+            };
             this.props.handleSubmit(result);
         });
         resetFields();
@@ -80,7 +87,6 @@ class AdminPostEditor extends Component {
             post,
         } = this.props;
 
-        console.log('post: ', post);
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
@@ -95,11 +101,11 @@ class AdminPostEditor extends Component {
         }
 
         const defaultSelected = [];
-        if (post) {
-            for (let index in post.tags) {
+        if (post && Array.isArray(post.tagList) && post.tagList.length > 0) {
+            for (let index in post.tagList) {
                 defaultSelected.push({
-                    key: post.tags[index].id,
-                    label: post.tags[index].name
+                    key: post.tagList[index].id,
+                    label: post.tagList[index].name
                 });
             }
         }

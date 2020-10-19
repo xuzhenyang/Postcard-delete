@@ -3,6 +3,7 @@ package co.lilpilot.postcard.postcontext.application;
 import co.lilpilot.postcard.postcontext.application.message.*;
 import co.lilpilot.postcard.postcontext.domain.Post;
 import co.lilpilot.postcard.postcontext.domain.PostService;
+import co.lilpilot.postcard.postcontext.domain.Tag;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,6 @@ public class PostAppService {
 
     @Autowired
     private PostService postService;
-    @Autowired
-    private PostRequestAssembler postRequestAssembler;
-
 
     public List<PostResponse> listLatest5() {
         List<Post> postList = postService.queryPublicByPage(1, 5).getContent();
@@ -43,13 +41,14 @@ public class PostAppService {
 
     @Transactional
     public void createPost(PostCreateRequest request) {
-        Post post = postRequestAssembler.toPost(request);
-        postService.createPost(post);
+        postService.createPost(request.toPost());
     }
 
     @Transactional
     public void editPost(PostUpdateRequest request) {
-        postService.editPost(request.getId(), request.getTitle(), request.getTagCodeList(), request.getContent());
+        List<Tag> tagList = CollectionUtils.isEmpty(request.getTagParamList()) ? null :
+                request.getTagParamList().stream().map(TagParam::toTag).collect(Collectors.toList());
+        postService.editPost(request.getId(), request.getTitle(), tagList, request.getContent());
     }
 
     @Transactional
