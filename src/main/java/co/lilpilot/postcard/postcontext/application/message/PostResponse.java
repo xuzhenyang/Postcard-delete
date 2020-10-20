@@ -1,6 +1,7 @@
 package co.lilpilot.postcard.postcontext.application.message;
 
 import co.lilpilot.postcard.postcontext.domain.Post;
+import co.lilpilot.postcard.postcontext.domain.PostStatus;
 import lombok.Getter;
 import org.springframework.util.CollectionUtils;
 
@@ -13,7 +14,8 @@ public class PostResponse {
     private Long id;
     private String title;
     private String content;
-    private Integer status;
+    private String status;
+    private String statusDesc;
     private List<TagResponse> tagList;
     private Date dateCreate;
     private Date dateUpdate;
@@ -28,11 +30,12 @@ public class PostResponse {
                 post.getStatus(), tagResponseList, post.getDateCreate(), post.getDateUpdate());
     }
 
-    private PostResponse(Long id, String title, String content, Integer status, List<TagResponse> tagList, Date dateCreate, Date dateUpdate) {
+    private PostResponse(Long id, String title, String content, PostStatus status, List<TagResponse> tagList, Date dateCreate, Date dateUpdate) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.status = status;
+        this.status = status.name();
+        this.statusDesc = status.getDesc();
         this.tagList = tagList;
         this.dateCreate = dateCreate;
         this.dateUpdate = dateUpdate;

@@ -85,7 +85,7 @@ class AdminPostListPage extends Component {
                     <a href={`/admin/posts/edit/${record.id}`}>Edit</a>
                     <Divider type="vertical" />
                     <Switch checkedChildren="已发布" unCheckedChildren="草稿"
-                        defaultChecked={record.status === 2} onChange={(checked) => this.handleSwitch(record.id, checked)} />
+                        defaultChecked={record.status === "PUBLIC"} onChange={(checked) => this.handleSwitch(record.id, checked)} />
                 </span>
             )
         }]

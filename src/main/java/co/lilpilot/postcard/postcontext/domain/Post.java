@@ -23,10 +23,8 @@ public class Post {
     private Long id;
     private String title;
     private String content;
-    /**
-     * @see PostStatus
-     */
-    private Integer status;
+    @Enumerated(value = EnumType.STRING)
+    private PostStatus status;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     @JsonIgnore
@@ -45,7 +43,7 @@ public class Post {
         }
         this.title = title;
         this.content = content;
-        this.status = PostStatus.DRAFT.getValue();
+        this.status = PostStatus.DRAFT;
     }
 
     public Post(String title, List<Tag> tagList, String content) {
@@ -58,7 +56,7 @@ public class Post {
         this.title = title;
         this.content = content;
         this.tagList = tagList;
-        this.status = PostStatus.DRAFT.getValue();
+        this.status = PostStatus.DRAFT;
     }
 
     public void edit(String title, List<Tag> tagList, String content) {
@@ -70,8 +68,13 @@ public class Post {
         }
         this.title = title;
         this.content = content;
+        if (CollectionUtils.isEmpty(this.tagList)) {
+            this.tagList = Lists.newArrayList();
+        }
         this.tagList.clear();
-        this.tagList.addAll(tagList);
+        if (!CollectionUtils.isEmpty(tagList)) {
+            this.tagList.addAll(tagList);
+        }
     }
 
     public void addTag(String tagCode, String tagName) {
@@ -95,10 +98,10 @@ public class Post {
     }
 
     public void publish() {
-        this.status = PostStatus.PUBLIC.getValue();
+        this.status = PostStatus.PUBLIC;
     }
 
     public void withdraw() {
-        this.status = PostStatus.DRAFT.getValue();
+        this.status = PostStatus.DRAFT;
     }
 }

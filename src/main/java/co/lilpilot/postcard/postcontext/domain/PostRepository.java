@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("from Post post where post.status = 2 order by post.id desc")
+    @Query("from Post post where post.status = 'PUBLIC' order by post.id desc")
     Page<Post> pagePublicPosts(Pageable pageable);
 
 }

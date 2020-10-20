@@ -6,11 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PostStatus {
-    DRAFT(1, "草稿"),
-    PUBLIC(2, "公开");
+    DRAFT("草稿"),
+    PUBLIC("公开");
 
-    private Integer value;
-    private String name;
+    private String desc;
 
 
 }

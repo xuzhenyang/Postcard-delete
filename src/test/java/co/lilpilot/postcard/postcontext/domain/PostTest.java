@@ -17,7 +17,7 @@ class PostTest extends BaseMockitoTest {
         Post post = new Post("测试标题", "测试内容");
         assertThat(post.getTitle()).isEqualTo("测试标题");
         assertThat(post.getContent()).isEqualTo("测试内容");
-        assertThat(post.getStatus()).isEqualTo(PostStatus.DRAFT.getValue());
+        assertThat(post.getStatus()).isEqualTo(PostStatus.DRAFT);
     }
 
     @ParameterizedTest
@@ -48,8 +48,9 @@ class PostTest extends BaseMockitoTest {
         );
         Post post = new Post("测试标题", tagList, "测试内容");
         assertThat(post.getTagList().size()).isEqualTo(2);
-        tagList.add(new Tag("tag_3", "标签3"));
-        post.edit("测试标题2", tagList, "测试内容2");
+        List<Tag> updatedTagList = Lists.newArrayList(tagList);
+        updatedTagList.add(new Tag("tag_3", "标签3"));
+        post.edit("测试标题2", updatedTagList, "测试内容2");
         assertThat(post.getTagList().size()).isEqualTo(3);
     }
 
@@ -70,16 +71,16 @@ class PostTest extends BaseMockitoTest {
     void should_change_status_to_public_when_publish() {
         Post post = new Post("测试标题", "测试内容");
         post.publish();
-        assertThat(post.getStatus()).isEqualTo(PostStatus.PUBLIC.getValue());
+        assertThat(post.getStatus()).isEqualTo(PostStatus.PUBLIC);
     }
 
     @Test
     void should_change_status_to_draft_when_withdraw() {
         Post post = new Post("测试标题", "测试内容");
         post.publish();
-        assertThat(post.getStatus()).isEqualTo(PostStatus.PUBLIC.getValue());
+        assertThat(post.getStatus()).isEqualTo(PostStatus.PUBLIC);
         post.withdraw();
-        assertThat(post.getStatus()).isEqualTo(PostStatus.DRAFT.getValue());
+        assertThat(post.getStatus()).isEqualTo(PostStatus.DRAFT);
     }
 
     @Test
