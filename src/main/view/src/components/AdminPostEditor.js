@@ -104,7 +104,7 @@ class AdminPostEditor extends Component {
         if (post && Array.isArray(post.tagList) && post.tagList.length > 0) {
             for (let index in post.tagList) {
                 defaultSelected.push({
-                    key: post.tagList[index].id,
+                    key: post.tagList[index].code,
                     label: post.tagList[index].name
                 });
             }

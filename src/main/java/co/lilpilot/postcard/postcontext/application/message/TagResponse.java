@@ -6,12 +6,10 @@ import lombok.Getter;
 @Getter
 public class TagResponse {
 
-    private Long id;
     private String code;
     private String name;
 
-    private TagResponse(Long id, String code, String name) {
-        this.id = id;
+    private TagResponse(String code, String name) {
         this.code = code;
         this.name = name;
     }
@@ -20,6 +18,6 @@ public class TagResponse {
         if (tag == null) {
             return null;
         }
-        return new TagResponse(tag.getId(), tag.getCode(), tag.getName());
+        return new TagResponse(tag.getCode(), tag.getName());
     }
 }
