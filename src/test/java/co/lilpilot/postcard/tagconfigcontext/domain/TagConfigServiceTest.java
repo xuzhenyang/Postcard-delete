@@ -28,12 +28,27 @@ public class TagConfigServiceTest extends BaseMockitoTest {
     ArgumentCaptor<TagConfig> tagConfigArgumentCaptor;
 
     @Test
-    void should_throw_exception_when_tag_config_exist() {
+    void should_throw_exception_when_add_and_code_config_exist() {
         //given
         String code = "test_code";
         String name = "test_name";
         TagConfig existTagConfig = new TagConfig(code, name);
         given(tagConfigRepository.findByCode(code))
+                .willReturn(existTagConfig);
+        //when
+        //then
+        assertThatThrownBy(() -> tagConfigService.addTagConfig(code, name))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("标签配置已存在");
+    }
+
+    @Test
+    void should_throw_exception_when_add_and_name_config_exist() {
+        //given
+        String code = "test_code";
+        String name = "test_name";
+        TagConfig existTagConfig = new TagConfig(code, name);
+        given(tagConfigRepository.findByName(name))
                 .willReturn(existTagConfig);
         //when
         //then
@@ -107,5 +122,21 @@ public class TagConfigServiceTest extends BaseMockitoTest {
         TagConfig result = tagConfigArgumentCaptor.getValue();
         assertThat(result.getCode()).isEqualTo(code);
         assertThat(result.getName()).isEqualTo(newName);
+    }
+
+    @Test
+    void should_throw_exception_when_edit_and_name_already_exist() {
+        //given
+        String code = "test_code";
+        String name = "test_name";
+        TagConfig tagConfig = new TagConfig(code, name);
+        long tagId = 1L;
+        given(tagConfigRepository.findByName(name))
+                .willReturn(tagConfig);
+        //when
+        //then
+        assertThatThrownBy(() -> tagConfigService.editName(tagId, name))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("名称已存在");
     }
 }

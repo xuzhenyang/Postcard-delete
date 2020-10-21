@@ -21,6 +21,10 @@ public class TagConfigService {
         if (exist != null) {
             throw new RuntimeException("标签配置已存在");
         }
+        exist = tagConfigRepository.findByName(name);
+        if (exist != null) {
+            throw new RuntimeException("标签配置已存在");
+        }
         TagConfig tagConfig = new TagConfig(code, name);
         return tagConfigRepository.save(tagConfig);
     }
@@ -40,6 +44,10 @@ public class TagConfigService {
     public TagConfig editName(Long tagId, String newName) {
         if (Objects.isNull(tagId) || StringUtils.isEmpty(newName)) {
             throw new RuntimeException("参数不能为空");
+        }
+        TagConfig existTag = tagConfigRepository.findByName(newName);
+        if (Objects.nonNull(existTag)) {
+            throw new RuntimeException("名称已存在");
         }
         Optional<TagConfig> tagConfigOptional = tagConfigRepository.findById(tagId);
         if (!tagConfigOptional.isPresent()) {
