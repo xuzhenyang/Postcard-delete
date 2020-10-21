@@ -39,6 +39,12 @@ public class TagConfigAppService {
         applicationEventPublisher.publishTagConfigDelete(new TagConfigDeleteEvent(deletedTagConfig.getCode()));
     }
 
+    @Transactional
+    public void editTagConfigName(Long id, String name) {
+        tagConfigService.editName(id, name);
+        //TODO 发布事件通知post context更新
+    }
+
     public String getNameByCode(String code) {
         if (StringUtils.isEmpty(code)) {
             return null;

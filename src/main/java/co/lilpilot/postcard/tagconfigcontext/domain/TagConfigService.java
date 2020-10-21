@@ -36,4 +36,18 @@ public class TagConfigService {
         tagConfigRepository.deleteById(id);
         return tagConfigOptional.get();
     }
+
+    public TagConfig editName(Long tagId, String newName) {
+        if (Objects.isNull(tagId) || StringUtils.isEmpty(newName)) {
+            throw new RuntimeException("参数不能为空");
+        }
+        Optional<TagConfig> tagConfigOptional = tagConfigRepository.findById(tagId);
+        if (!tagConfigOptional.isPresent()) {
+            throw new RuntimeException("标签配置不存在");
+        }
+        TagConfig tagConfig = tagConfigOptional.get();
+        tagConfig.edit(newName);
+        tagConfigRepository.save(tagConfig);
+        return tagConfig;
+    }
 }

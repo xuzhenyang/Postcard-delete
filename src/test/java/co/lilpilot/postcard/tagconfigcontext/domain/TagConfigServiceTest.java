@@ -1,8 +1,6 @@
 package co.lilpilot.postcard.tagconfigcontext.domain;
 
 import co.lilpilot.postcard.BaseMockitoTest;
-import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
-import co.lilpilot.postcard.tagconfigcontext.gateway.event.SpringEventPublisher;
 import co.lilpilot.postcard.tagconfigcontext.interfaces.ApplicationEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,6 +23,9 @@ public class TagConfigServiceTest extends BaseMockitoTest {
     ApplicationEventPublisher applicationEventPublisher;
     @InjectMocks
     TagConfigService tagConfigService;
+
+    @Captor
+    ArgumentCaptor<TagConfig> tagConfigArgumentCaptor;
 
     @Test
     void should_throw_exception_when_tag_config_exist() {
@@ -87,5 +88,24 @@ public class TagConfigServiceTest extends BaseMockitoTest {
         assertThatThrownBy(() -> tagConfigService.delete(tagId))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("标签配置不存在");
+    }
+
+    @Test
+    void test_edit_tag_config_name() {
+        //given
+        String code = "test_code";
+        String name = "test_name";
+        TagConfig tagConfig = new TagConfig(code, name);
+        long tagId = 1L;
+        given(tagConfigRepository.findById(tagId))
+                .willReturn(Optional.of(tagConfig));
+        //when
+        String newName = "new_name";
+        tagConfigService.editName(tagId, newName);
+        //then
+        then(tagConfigRepository).should().save(tagConfigArgumentCaptor.capture());
+        TagConfig result = tagConfigArgumentCaptor.getValue();
+        assertThat(result.getCode()).isEqualTo(code);
+        assertThat(result.getName()).isEqualTo(newName);
     }
 }

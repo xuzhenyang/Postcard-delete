@@ -152,7 +152,6 @@ class AdminPostEditor extends Component {
                             }} />
                         </TabPane>
                     </Tabs>
-                    <Button>Draft</Button>
                     <Button onClick={this.onSubmit}>Submit</Button>
                 </Form>
             </div>

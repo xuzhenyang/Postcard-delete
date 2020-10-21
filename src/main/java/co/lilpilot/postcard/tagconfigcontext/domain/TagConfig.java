@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,6 +27,13 @@ public class TagConfig {
 
     public TagConfig(String code, String name) {
         this.code = code;
+        this.name = name;
+    }
+
+    public void edit(String name) {
+        if (StringUtils.isEmpty(name)) {
+            throw new RuntimeException("名称不能为空");
+        }
         this.name = name;
     }
 }

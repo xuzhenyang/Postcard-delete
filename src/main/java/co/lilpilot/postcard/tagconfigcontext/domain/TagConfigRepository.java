@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TagConfigRepository extends JpaRepository<TagConfig, Long> {
     TagConfig findByCode(String code);
+
+    TagConfig findByName(String name);
 }
