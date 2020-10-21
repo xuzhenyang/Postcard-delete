@@ -18,4 +18,6 @@ public class TagConfigEventHandler {
         postAppService.removeTag(tagCode);
     }
 
+    //TODO 监听标签编辑事件
+
 }

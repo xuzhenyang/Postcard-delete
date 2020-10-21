@@ -1,6 +1,7 @@
 package co.lilpilot.postcard.tagconfigcontext.application;
 
 import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
+import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigEditEvent;
 import co.lilpilot.postcard.tagconfigcontext.application.message.TagConfigCreateRequest;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfig;
 import co.lilpilot.postcard.tagconfigcontext.domain.TagConfigRepository;
@@ -41,8 +42,8 @@ public class TagConfigAppService {
 
     @Transactional
     public void editTagConfigName(Long id, String name) {
-        tagConfigService.editName(id, name);
-        //TODO 发布事件通知post context更新
+        TagConfig config = tagConfigService.editName(id, name);
+        applicationEventPublisher.publishTagConfigEdit(new TagConfigEditEvent(config.getCode(), config.getName()));
     }
 
     public String getNameByCode(String code) {

@@ -1,6 +1,7 @@
 package co.lilpilot.postcard.tagconfigcontext.gateway.event;
 
 import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
+import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigEditEvent;
 import co.lilpilot.postcard.tagconfigcontext.interfaces.ApplicationEventPublisher;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -20,6 +21,11 @@ public class SpringEventPublisher implements ApplicationEventPublisher, Applicat
     @Override
     public void publishTagConfigDelete(TagConfigDeleteEvent tagConfigDeleteEvent) {
         applicationContext.publishEvent(tagConfigDeleteEvent);
+    }
+
+    @Override
+    public void publishTagConfigEdit(TagConfigEditEvent tagConfigEditEvent) {
+        applicationContext.publishEvent(tagConfigEditEvent);
     }
 
 }

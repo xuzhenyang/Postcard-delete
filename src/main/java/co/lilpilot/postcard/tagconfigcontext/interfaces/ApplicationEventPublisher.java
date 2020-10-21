@@ -1,7 +1,9 @@
 package co.lilpilot.postcard.tagconfigcontext.interfaces;
 
 import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
+import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigEditEvent;
 
 public interface ApplicationEventPublisher {
-    public void publishTagConfigDelete(TagConfigDeleteEvent tagConfigDeleteEvent);
+    void publishTagConfigDelete(TagConfigDeleteEvent tagConfigDeleteEvent);
+    void publishTagConfigEdit(TagConfigEditEvent tagConfigEditEvent);
 }
