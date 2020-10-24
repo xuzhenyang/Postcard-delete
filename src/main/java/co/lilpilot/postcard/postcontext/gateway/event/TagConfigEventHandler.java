@@ -2,6 +2,7 @@ package co.lilpilot.postcard.postcontext.gateway.event;
 
 import co.lilpilot.postcard.postcontext.application.PostAppService;
 import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigDeleteEvent;
+import co.lilpilot.postcard.tagconfigcontext.application.event.TagConfigEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,11 @@ public class TagConfigEventHandler {
         postAppService.removeTag(tagCode);
     }
 
-    //TODO 监听标签编辑事件
+    @EventListener
+    public void handleTagConfigEdit(TagConfigEditEvent tagConfigEditEvent) {
+        String tagCode = tagConfigEditEvent.getTagCode();
+        String newTagName = tagConfigEditEvent.getNewName();
+        postAppService.editTag(tagCode, newTagName);
+    }
 
 }

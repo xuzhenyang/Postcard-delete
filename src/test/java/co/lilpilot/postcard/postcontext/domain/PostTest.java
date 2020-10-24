@@ -7,6 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -104,5 +106,27 @@ class PostTest extends BaseMockitoTest {
         post.removeTag("tag_1");
         assertThat(post.getTagList().size()).isEqualTo(1);
         assertThat(post.getTagList().get(0).getCode()).isEqualTo("tag_2");
+    }
+
+    @Test
+    void test_edit_tag() {
+        //given
+        List<Tag> tagList = Lists.newArrayList(
+                new Tag("tag_1", "标签1"),
+                new Tag("tag_2", "标签2")
+        );
+        Post post = new Post("测试标题", tagList, "测试内容");
+        //when
+        post = post.editTag("tag_1", "变更内容");
+        //then
+        List<Tag> finalTagList = post.getTagList();
+        assertThat(finalTagList.size()).isEqualTo(2);
+        Optional<Tag> optionalTag1 = finalTagList.stream().filter(tag -> Objects.equals(tag.getCode(), "tag_1")).findFirst();
+        assertThat(optionalTag1.isPresent()).isTrue();
+        Tag tag1 = optionalTag1.get();
+        assertThat(tag1.getName()).isEqualTo("变更内容");
+        Optional<Tag> optionalTag2 = finalTagList.stream().filter(tag -> Objects.equals(tag.getCode(), "tag_2")).findFirst();
+        assertThat(optionalTag2.isPresent()).isTrue();
+        assertThat(optionalTag2.get().getName()).isEqualTo("标签2");
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -74,6 +76,20 @@ public class PostService {
         Post post = postOptional.get();
         post.withdraw();
         return postRepository.save(post);
+    }
+
+    public void editTag(String tagCode, String newTagName) {
+        if (StringUtils.isEmpty(tagCode) || StringUtils.isEmpty(newTagName)) {
+            throw new RuntimeException("参数不能为空");
+        }
+        List<Post> postList = postRepository.findAll();
+        if (CollectionUtils.isEmpty(postList)) {
+            return;
+        }
+        for (Post post : postList) {
+            post.editTag(tagCode, newTagName);
+            postRepository.save(post);
+        }
     }
 
     //TODO refactor 区分文章删除标签和删除标签配置

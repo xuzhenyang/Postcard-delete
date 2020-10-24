@@ -92,7 +92,7 @@ public class Post {
             throw new RuntimeException("标签编码不能为空");
         }
         if (CollectionUtils.isEmpty(this.tagList)) {
-            throw new RuntimeException("标签列表为空");
+            return;
         }
         this.tagList.removeIf(tag -> Objects.equals(tag.getCode(), tagCode));
     }
@@ -103,5 +103,16 @@ public class Post {
 
     public void withdraw() {
         this.status = PostStatus.DRAFT;
+    }
+
+    public Post editTag(String tagCode, String newTagName) {
+        if (CollectionUtils.isEmpty(this.tagList)) {
+            return this;
+        }
+        boolean isRemove = this.tagList.removeIf(tag -> Objects.equals(tag.getCode(), tagCode));
+        if (isRemove) {
+            this.tagList.add(new Tag(tagCode, newTagName));
+        }
+        return this;
     }
 }

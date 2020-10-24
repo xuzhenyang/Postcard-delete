@@ -65,4 +65,9 @@ public class PostAppService {
     public void removeTag(String tagCode) {
         postService.removeTag(tagCode);
     }
+
+    @Transactional
+    public void editTag(String tagCode, String newTagName) {
+        postService.editTag(tagCode, newTagName);
+    }
 }
