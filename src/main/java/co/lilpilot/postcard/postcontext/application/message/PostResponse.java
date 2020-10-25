@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -17,8 +18,8 @@ public class PostResponse {
     private String status;
     private String statusDesc;
     private List<TagResponse> tagList;
-    private Date dateCreate;
-    private Date dateUpdate;
+    private Long dateCreate;
+    private Long dateUpdate;
 
     public static PostResponse of(Post post) {
         if (post == null) {
@@ -37,7 +38,7 @@ public class PostResponse {
         this.status = status.name();
         this.statusDesc = status.getDesc();
         this.tagList = tagList;
-        this.dateCreate = dateCreate;
-        this.dateUpdate = dateUpdate;
+        this.dateCreate = Objects.nonNull(dateCreate) ? dateCreate.getTime() : null;
+        this.dateUpdate = Objects.nonNull(dateUpdate) ? dateUpdate.getTime() : null;
     }
 }

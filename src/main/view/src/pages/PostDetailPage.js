@@ -8,7 +8,7 @@ import { time2DateStr } from '../common';
 function Post(post) {
     if (post && post.id) {
         const tagList = [];
-        let tags = post.tags;
+        let tags = post.tagList;
         if (Array.isArray(tags) && tags.length > 0)
         tags.forEach(tag => {
             tagList.push(<span style={{"margin": 5}}>{tag.name}</span>);
@@ -17,7 +17,7 @@ function Post(post) {
             <div className="main">
                 <h1>{post.title}</h1>
                 <p>{tagList}</p>
-                <p>{time2DateStr(post.createTime)}</p>
+                <p>{time2DateStr(post.dateCreate)}</p>
                 <div className="container">
                     <div dangerouslySetInnerHTML={{
                         __html: marked3(post.content, {

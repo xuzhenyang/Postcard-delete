@@ -10,7 +10,7 @@ function Post(post) {
             <Link to={"/posts/" + post.id}>
                 <h2 style={{"margin": 10}}>{post.title}</h2>
             </Link>
-            <p>{time2DateStr(post.createTime)}</p>
+            <p>{time2DateStr(post.dateCreate)}</p>
         </div>
     );
 }
