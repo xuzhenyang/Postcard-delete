@@ -22,6 +22,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    @Lob
+    @Column(length = 16777216)
     private String content;
     @Enumerated(value = EnumType.STRING)
     private PostStatus status;

@@ -57,8 +57,11 @@ public class PostServiceTest extends BaseMockitoTest {
         given(postRepository.findById(anyLong()))
                 .willReturn(Optional.of(post));
         //when
-        tagList.add(new Tag("tag_3", "测试标签2"));
-        postService.editPost(1L, "updated_title", tagList, "updated_content");
+        List<Tag> updatedTagList = Lists.newArrayList(
+                new Tag("tag_1", "测试标签1"),
+                new Tag("tag_2", "测试标签2"),
+                new Tag("tag_3", "测试标签3"));
+        postService.editPost(1L, "updated_title", updatedTagList, "updated_content");
         //then
         then(postRepository).should().save(postArgumentCaptor.capture());
         Post result = postArgumentCaptor.getValue();
